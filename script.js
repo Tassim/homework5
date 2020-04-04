@@ -4,7 +4,7 @@ const index = 0;
 const dateHour = $('data-time').val();
 const $inputTask = $('.description').text();
 
-console.log(dateHour);
+console.log(parseInt(dateHour));
 console.log($inputTask);
 
 // open the browser see date and time on the top
@@ -18,19 +18,35 @@ currentDay()
 // time at the page refreshes clock every 10 seconds
 setInterval(currentDay, 1000);
 
+
+
+
 // the text input bar is colored based in indication whether it is past, present and future
-$.each($('.time-block'), function() {
+$.each($('.time-block'), function(index, value) {
+    let dateHour = $(value).attr('data-time');
+    if (Number(value) === moment().hour()) {
+      $(this).find('textarea').addClass('present');
+    } else if (Number(dateHour) < moment().hour()) {
+      $(this).find('textarea').addClass('past').attr('disabled', 'disabled');
+      $(this).find('.save-button').addClass('disabled').attr('disabled', true);
+    } else {
+      $(this).find('textarea').addClass('future');
+    }
+  });
+  
 
-    let currentTime = moment().format();
+// $.each($('.time-block'), function() {
 
-if(dateHour === currentTime){
-    $(this).find('textarea').addClass('present');
-}else if (dateHour < currentTime) {
-    $(this).find('textarea').addClass('past');
-} else {
-    $(this).find('textarea').addClass('future');
-}
-}) 
+//     let currentTime = moment().format();
+
+// if(dateHour === currentTime){
+//     $(this).find('textarea').addClass('present');
+// }else if (dateHour < currentTime) {
+//     $(this).find('textarea').addClass('past');
+// } else {
+//     $(this).find('textarea').addClass('future');
+// }
+// }) 
 
 
 $("button").on('click', function(e) {
